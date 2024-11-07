@@ -138,11 +138,11 @@ public class User extends AbstractModel {
         try {
             ArrayList<Object> users = new ArrayList<>();
             Statement stmt = connexion.createStatement();
-            String query = "SELECT * FROM users";
+            String query = "SELECT id, nom, prenom, email, password FROM users";
             ResultSet rs = stmt.executeQuery(query);
             while(rs.next()) {
                 if (rs.getString(1) != null) {
-                    User currentUser = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4));
+                    User currentUser = new User(rs.getString("nom"), rs.getString("prenom"), rs.getString("email"), rs.getString("password"));
                     currentUser.setId(Integer.parseInt(rs.getString("id")));
                     users.add(currentUser);
                 }

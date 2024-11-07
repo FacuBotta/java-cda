@@ -73,7 +73,7 @@ public class Film extends AbstractModel {
     public void update() {
         try{
             Statement stmt = connexion.createStatement();
-            String editQuery = "UPDATE films SET titre = ?, date = ?, description = ? WHERE id = ?";
+            String editQuery = "UPDATE films SET titre = ?, date = ?, description = ? WHERE id = ? LIMIT 1";
             PreparedStatement preparedStatement = connexion.prepareStatement(editQuery);
             preparedStatement.setString(1, this.titre);
             preparedStatement.setString(2, this.date);
@@ -129,7 +129,7 @@ public class Film extends AbstractModel {
         try{
             ArrayList<Object> films = new ArrayList<>();
             Statement stmt = connexion.createStatement();
-            String selectQuery = "SELECT * FROM films";
+            String selectQuery = "SELECT id, titre, date, description FROM films";
             ResultSet rs = stmt.executeQuery(selectQuery);
             while (rs.next()) {
                 if(rs.getString(1) != null) {
@@ -142,7 +142,7 @@ public class Film extends AbstractModel {
             return films;
         }
         catch(SQLException e){
-            throw new RuntimeException("Error fetching users : ", e);
+            throw new RuntimeException("Error fetching films : ", e);
         }
     }
 
@@ -150,7 +150,7 @@ public class Film extends AbstractModel {
         Film selectedFilm = null;
         try{
             Statement stmt = connexion.createStatement();
-            String selectQuery = "SELECT * FROM films WHERE titre = ?";
+            String selectQuery = "SELECT id, titre, date, description FROM films WHERE titre = ?";
             PreparedStatement preparedStatement = connexion.prepareStatement(selectQuery);
             preparedStatement.setString(1, titre);
             ResultSet rs = preparedStatement.executeQuery();
